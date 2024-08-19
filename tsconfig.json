@@ -1,16 +1,17 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@assets/*": ["./src/assets/*"],
-      "@components/*": ["./src/components/*"],
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "screens/*": ["./src/screens/*"] ,
     },
-    "include": [
-      "**/*.ts",
-      "**/*.js",
-      "**/*.tsx",
-      "**/*.jsx",
-    ]
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "**/*.tsx",
+    "**/*.jsx",
+  ]
 }

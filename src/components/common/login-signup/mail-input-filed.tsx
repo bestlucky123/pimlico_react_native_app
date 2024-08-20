@@ -1,8 +1,11 @@
 import { TextInput, StyleSheet, View } from "react-native";
 
+import Icon from 'react-native-vector-icons/Feather';
+
 const MailInputField = () => {
   return (
     <View style={styles.container}>
+      <Icon name="mail" size={18} color={'#9D9D9D'} />
       <TextInput
         style={styles.input}
         placeholder="Email Address"

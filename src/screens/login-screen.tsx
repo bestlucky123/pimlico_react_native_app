@@ -6,30 +6,43 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import TitleAndDesription from 'components/screens/login-screen/title-and-description';
 import MailAndPasswordInput from 'components/screens/login-screen/mail-password-input';
 
 import PageStyles from 'components/common/login-signup/style.module';
 import LoginOptions from 'components/screens/login-screen/login-options';
 import LoginSignupButton from 'components/common/login-signup/login-signup-button';
+import {useState} from 'react';
 
 const Logo = require('assets/images/logo.png');
 
 const SignInScreen = () => {
+  const [isJustSignedOut, setIsJustSignedOut] = useState<boolean>(false);
+
   const HandleSignIn = () => {
     Alert.alert('Try later');
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.overlay}>
         <Image source={Logo} style={styles.logo} />
         <View style={PageStyles.mainArea}>
-          <TitleAndDesription
-            title={'Sign In'}
-            description={
-              'Use your Pimlico Capital portal to manage all of your loans and lending needs!'
-            }
-          />
+          <View style={styles.titleAndDescription}>
+            <Text style={styles.title}>Sign In</Text>
+
+            {isJustSignedOut ? (
+              <Text style={styles.description}>
+                You have successfully logged out of your loan portal.{' '}
+                <Text style={styles.descriptionInlineLinkText}>
+                  Please login again
+                </Text>
+              </Text>
+            ) : (
+              <Text style={styles.description}>
+                Use your Pimlico Capital portal to manage all of your loans and lending needs!
+              </Text>
+            )}
+          </View>
 
           <MailAndPasswordInput />
 
@@ -39,9 +52,7 @@ const SignInScreen = () => {
             <LoginSignupButton label="Sign In" onClick={HandleSignIn} />
 
             <View style={styles.createAccountContainer}>
-              <Text style={styles.createAccountText}>
-                New to the Portal?{' '}
-              </Text>
+              <Text style={styles.createAccountText}>New to the Portal? </Text>
               <TouchableOpacity>
                 <Text style={PageStyles.underlineLink}>Create an Account</Text>
               </TouchableOpacity>
@@ -74,6 +85,26 @@ const styles = StyleSheet.create({
     height: 209,
     position: 'absolute',
     top: -153,
+  },
+  titleAndDescription: {
+    width: '100%',
+    gap: 8,
+    alignItems: 'center',
+    letterSpacing: -0.2,
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: 'Inter',
+    fontWeight: 'bold',
+    color: '#383535',
+  },
+  description: {
+    fontSize: 14,
+    color: '#383F41',
+    textAlign: 'center',
+  },
+  descriptionInlineLinkText: {
+    color: '#3399FF',
   },
   loginbuttonSctionContainer: {
     width: '100%',

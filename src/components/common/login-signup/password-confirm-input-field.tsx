@@ -2,14 +2,19 @@ import {useState} from 'react';
 import {TextInput, StyleSheet, View, TouchableOpacity} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Octicons';
+import FontistoIcon from 'react-native-vector-icons/Fontisto';
 
 type Props = {
-  password: string;
+  confirmPassword?: string;
   onChange?: (value: string) => void;
   isInvalid?: boolean;
 };
 
-const PasswordInputField = ({password, onChange, isInvalid = false}: Props) => {
+const PasswordConfrimInputField = ({
+  confirmPassword,
+  onChange,
+  isInvalid = false,
+}: Props) => {
   const [isHide, setIsHide] = useState<boolean>(true);
 
   const onPress = () => {
@@ -22,14 +27,14 @@ const PasswordInputField = ({password, onChange, isInvalid = false}: Props) => {
         styles.container,
         {borderColor: isInvalid ? '#FF0000' : '#E5E5E5'},
       ]}>
-      <Icon name="key" size={18} color={'#9D9D9D'} style={styles.icon} />
+      <FontistoIcon name="checkbox-active" size={16} color={'#9D9D9D'} />
       <TextInput
-        value={password}
+        value={confirmPassword}
         onChangeText={value => {
           if (onChange) onChange(value);
         }}
         style={[styles.input, {color: isInvalid ? '#FF0000' : '#000'}]}
-        placeholder="Password"
+        placeholder="Comfirm Password"
         keyboardType="default"
         autoCapitalize="none"
         secureTextEntry={isHide}
@@ -61,9 +66,6 @@ const styles = StyleSheet.create({
     fontWeight: 'medium',
     fontSize: 14,
   },
-  icon: {
-    transform: [{scaleX: -1}, {rotate: '45deg'}],
-  },
 });
 
-export default PasswordInputField;
+export default PasswordConfrimInputField;

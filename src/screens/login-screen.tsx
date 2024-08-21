@@ -5,6 +5,7 @@ import {
   Alert,
   Text,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import MailAndPasswordInput from 'components/screens/login-screen/mail-password-input';
 
@@ -23,6 +24,7 @@ const SignInScreen = () => {
   };
 
   return (
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.container}>
       <View style={styles.overlay}>
         <Image source={Logo} style={styles.logo} />
@@ -61,10 +63,15 @@ const SignInScreen = () => {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: '#383F41',
@@ -72,7 +79,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     width: '100%',
-    height: '100%',
+    minHeight: '100%',
     marginTop: 222,
     paddingVertical: 80,
     paddingHorizontal: 16,

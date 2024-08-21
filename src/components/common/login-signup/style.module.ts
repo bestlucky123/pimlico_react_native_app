@@ -12,6 +12,10 @@ const PageStyles = StyleSheet.create({
     color: '#3399FF',
     textDecorationLine: 'underline',
   },
+  iconWapper: {
+    width: 18,
+    height: 18,
+  },
 });
 
 export default PageStyles;

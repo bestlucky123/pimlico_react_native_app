@@ -15,30 +15,25 @@ type Props = {
   handleInputChange: (field: string, value: string) => void;
   email: string;
   password: string;
-  confirmPassword : string;
+  confirmPassword: string;
 };
 
-const SignupOptionAndInfoSection = ({handleSSOWithGoogle}: Props) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-
+const SignupOptionAndInfoSection = ({
+  handleSSOWithGoogle,
+  handleInputChange,
+  email,
+  password,
+  confirmPassword,
+}: Props) => {
   const [isInvalidEmail, setIsInvalidEmail] = useState<boolean>(false);
   const [isUserDuplicated, setIsUserDuplicated] = useState<boolean>(false);
   const [isPasswordWeak, setIsPasswordWeak] = useState<boolean>(false);
   const [isNotPasswordMatching, setIsNotPasswordMatching] =
     useState<boolean>(false);
 
-  const resetMessages = () => {
-    setIsInvalidEmail(false);
-    setIsUserDuplicated(false);
-    setIsPasswordWeak(false);
-    setIsNotPasswordMatching(false);
-  };
-
   const handleEmailChange = (text: string) => {
-    resetMessages();
-    setEmail(text);
+    handleInputChange('email', text);
+    setIsInvalidEmail(false);
 
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
@@ -49,8 +44,9 @@ const SignupOptionAndInfoSection = ({handleSSOWithGoogle}: Props) => {
   };
 
   const handlePasswordChange = (text: string) => {
-    resetMessages();
-    setPassword(text);
+    handleInputChange('password', text);
+    setIsPasswordWeak(false);
+
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
 
@@ -61,8 +57,8 @@ const SignupOptionAndInfoSection = ({handleSSOWithGoogle}: Props) => {
   };
 
   const handlePasswordConfirmChange = (text: string) => {
-    resetMessages();
-    setConfirmPassword(text);
+    handleInputChange('confirmPassword', text);
+    setIsNotPasswordMatching(false);
 
     if (password !== text) {
       setIsNotPasswordMatching(true);
@@ -82,12 +78,21 @@ const SignupOptionAndInfoSection = ({handleSSOWithGoogle}: Props) => {
       />
       <Text style={styles.separator}>- OR -</Text>
       <FullNameInputField />
-      <MailInputField onChange={resetMessages} onBlur={handleEmailChange} />
-      <PasswordInputField
-        onChange={resetMessages}
-        onBlur={handlePasswordChange}
+      <MailInputField
+        email={email}
+        onChange={handleEmailChange}
+        isInvalid={isInvalidEmail}
       />
-      <PasswordConfrimInputField onChange={resetMessages} onBlur={handlePasswordConfirmChange}/>
+      <PasswordInputField
+        password={password}
+        onChange={handlePasswordChange}
+        isInvalid={isPasswordWeak}
+      />
+      <PasswordConfrimInputField
+        confirmPassword={confirmPassword}
+        onChange={handlePasswordConfirmChange}
+        isInvalid={isNotPasswordMatching}
+      />
 
       <View style={styles.messageContainer}>
         {!(
@@ -150,6 +155,7 @@ const styles = StyleSheet.create({
   },
   messageContainer: {
     width: '100%',
+    gap: 8,
     fontSize: 14,
   },
   normalText: {

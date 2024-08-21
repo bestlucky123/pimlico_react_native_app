@@ -1,0 +1,170 @@
+import {useState} from 'react';
+import {Text, View, StyleSheet, Alert} from 'react-native';
+import LoginSignUpContainer from 'components/common/login-signup/login-signup-container';
+import MailInputField from 'components/common/login-signup/mail-input-filed';
+import PasswordInputField from 'components/common/login-signup/password-input-field';
+import SSOWithGoogle from 'components/common/login-signup/google-sso';
+import FullNameInputField from 'components/common/login-signup/full-name-input-filed';
+import PasswordConfrimInputField from 'components/common/login-signup/password-confirm-input-field';
+import PageStyles from 'components/common/login-signup/style.module';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+type Props = {
+  handleSSOWithGoogle?: () => void;
+  handleInputChange: (field: string, value: string) => void;
+  email: string;
+  password: string;
+  confirmPassword : string;
+};
+
+const SignupOptionAndInfoSection = ({handleSSOWithGoogle}: Props) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
+  const [isInvalidEmail, setIsInvalidEmail] = useState<boolean>(false);
+  const [isUserDuplicated, setIsUserDuplicated] = useState<boolean>(false);
+  const [isPasswordWeak, setIsPasswordWeak] = useState<boolean>(false);
+  const [isNotPasswordMatching, setIsNotPasswordMatching] =
+    useState<boolean>(false);
+
+  const resetMessages = () => {
+    setIsInvalidEmail(false);
+    setIsUserDuplicated(false);
+    setIsPasswordWeak(false);
+    setIsNotPasswordMatching(false);
+  };
+
+  const handleEmailChange = (text: string) => {
+    resetMessages();
+    setEmail(text);
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailRegex.test(text)) {
+      setIsInvalidEmail(true);
+      return;
+    }
+  };
+
+  const handlePasswordChange = (text: string) => {
+    resetMessages();
+    setPassword(text);
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/;
+
+    if (!passwordRegex.test(text)) {
+      setIsPasswordWeak(true);
+      return;
+    }
+  };
+
+  const handlePasswordConfirmChange = (text: string) => {
+    resetMessages();
+    setConfirmPassword(text);
+
+    if (password !== text) {
+      setIsNotPasswordMatching(true);
+      return;
+    }
+  };
+
+  const naviagteToSignInScreen = () => {
+    Alert.alert('Please wait');
+  };
+
+  return (
+    <LoginSignUpContainer>
+      <SSOWithGoogle
+        label="Sign Up With Google"
+        onClick={handleSSOWithGoogle}
+      />
+      <Text style={styles.separator}>- OR -</Text>
+      <FullNameInputField />
+      <MailInputField onChange={resetMessages} onBlur={handleEmailChange} />
+      <PasswordInputField
+        onChange={resetMessages}
+        onBlur={handlePasswordChange}
+      />
+      <PasswordConfrimInputField onChange={resetMessages} onBlur={handlePasswordConfirmChange}/>
+
+      <View style={styles.messageContainer}>
+        {!(
+          isInvalidEmail ||
+          isUserDuplicated ||
+          isPasswordWeak ||
+          isNotPasswordMatching
+        ) && (
+          <Text style={styles.normalText}>
+            Already have and account?{' '}
+            <Text
+              style={PageStyles.underlineLink}
+              onPress={naviagteToSignInScreen}>
+              Sign in
+            </Text>
+          </Text>
+        )}
+        {isUserDuplicated && (
+          <Text style={styles.errorText}>
+            This email is already in use.{' '}
+            <Text
+              style={PageStyles.underlineLink}
+              onPress={naviagteToSignInScreen}>
+              Sign in instead?
+            </Text>
+          </Text>
+        )}
+        {isInvalidEmail && (
+          <View style={styles.warnningMessageContainer}>
+            <Icon name="error-outline" size={18} color={'#FF0000'} />
+            <Text style={styles.errorText}>Invalid Email Type.</Text>
+          </View>
+        )}
+        {isPasswordWeak && (
+          <View style={styles.warnningMessageContainer}>
+            <Icon name="error-outline" size={18} color={'#FF0000'} />
+            <Text style={styles.errorText}>
+              Please choose a stronger password. Try a mix of letters, numbers,
+              and symbols.
+            </Text>
+          </View>
+        )}
+        {isNotPasswordMatching && (
+          <View style={styles.warnningMessageContainer}>
+            <Icon name="error-outline" size={18} color={'#FF0000'} />
+            <Text style={styles.errorText}>Passwords do not match.</Text>
+          </View>
+        )}
+      </View>
+    </LoginSignUpContainer>
+  );
+};
+
+const styles = StyleSheet.create({
+  separator: {
+    width: '100%',
+    textAlign: 'center',
+    fontSize: 16,
+    lineHeight: 22.4,
+  },
+  messageContainer: {
+    width: '100%',
+    fontSize: 14,
+  },
+  normalText: {
+    color: '#000',
+  },
+  errorText: {
+    flexShrink: 1,
+    color: '#FF0000',
+  },
+  warnningMessageContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+});
+
+export default SignupOptionAndInfoSection;

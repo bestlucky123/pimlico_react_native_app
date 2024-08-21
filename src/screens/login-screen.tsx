@@ -16,12 +16,12 @@ import PageStyles from 'components/common/login-signup/style.module';
 
 const Logo = require('assets/images/logo.png');
 
-const SignInScreen = ({navigation}: any) => {
+const SignInScreen = ({navigation, route}: any) => {
+  const isSignout = route?.params?.isSignout || false;
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
-
-  const [isJustSignedOut, setIsJustSignedOut] = useState<boolean>(false);
 
   const handleInputChange = (field: string, value: string) => {
     switch (field) {
@@ -59,7 +59,7 @@ const SignInScreen = ({navigation}: any) => {
             <View style={styles.titleAndDescription}>
               <Text style={styles.title}>Sign In</Text>
 
-              {isJustSignedOut ? (
+              {isSignout ? (
                 <Text style={styles.description}>
                   You have successfully logged out of your loan portal.{' '}
                   <Text style={styles.descriptionInlineLinkText}>

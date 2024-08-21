@@ -1,19 +1,17 @@
-import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 const GoogleIcon = require('assets/images/google.png');
 
-type Props ={
+type Props = {
   label: string;
   onClick?: () => void;
-}
+};
 
-const SSOWithGoogle = ({label, onClick} : Props) => {
+const SSOWithGoogle = ({label, onClick}: Props) => {
   return (
     <TouchableOpacity style={styles.container} onPressOut={onClick}>
       <Image source={GoogleIcon} style={styles.googleIcon} />
-      <Text style={styles.label}>
-        {label}
-      </Text>
+      <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );
 };

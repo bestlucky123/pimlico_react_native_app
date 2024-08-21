@@ -1,19 +1,27 @@
 import PageStyles from 'components/common/login-signup/style.module';
-import {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Fontisto';
 
-const LoginOptions = () => {
-  const [isRemember, setIsRemember] = useState<boolean>(false);
+type Props = {
+  isRemember?: boolean;
+  setIsRemember?: (Checked: boolean) => void;
+};
 
-  const onPress = () => {
-    setIsRemember(!isRemember);
+const LoginOptions = ({isRemember, setIsRemember}: Props) => {
+  const handleIsRemember = () => {
+    if (setIsRemember) setIsRemember(!isRemember);
+  };
+
+  const handleForgotPassword = () => {
+    Alert.alert('', 'Please wait. Implementing the feature.');
   };
 
   return (
     <View style={styles.optionsRow}>
-      <TouchableOpacity onPress={onPress} style={styles.checkboxContainer}>
+      <TouchableOpacity
+        onPress={handleIsRemember}
+        style={styles.checkboxContainer}>
         {isRemember ? (
           <Icon name="checkbox-active" size={16} color={'#383F41'} />
         ) : (
@@ -22,7 +30,9 @@ const LoginOptions = () => {
         <Text style={styles.checkboxLabel}>Remember Me</Text>
       </TouchableOpacity>
       <TouchableOpacity>
-        <Text style={PageStyles.underlineLink}>Forgot Password?</Text>
+        <Text style={PageStyles.underlineLink} onPress={handleForgotPassword}>
+          Forgot Password?
+        </Text>
       </TouchableOpacity>
     </View>
   );

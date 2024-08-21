@@ -1,13 +1,12 @@
-import {TouchableOpacity, Text, StyleSheet, View, Button} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 type Props = {
   label: string;
   onClick: () => void;
-  disabled?: boolean;
-}
-const LoginSignupButton = ({label, onClick, disabled} : Props) => {
+};
+const LoginSignupButton = ({label, onClick}: Props) => {
   return (
-    <TouchableOpacity style={styles.signInButton} onPressOut={onClick} disabled={disabled}>
+    <TouchableOpacity style={styles.signInButton} onPressOut={onClick}>
       <Text style={styles.signInButtonText}>{label}</Text>
     </TouchableOpacity>
   );

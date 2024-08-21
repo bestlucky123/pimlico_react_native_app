@@ -1,33 +1,29 @@
-import {
-  View,
-  Image,
-  StyleSheet,
-  Alert,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {useEffect, useState} from 'react';
+import {View, Image, StyleSheet, Alert, Text, ScrollView} from 'react-native';
 
 import SignupOptionAndInfoSection from 'components/screens/signup-screen/signup-info-section';
-import PageStyles from 'components/common/login-signup/style.module';
-import LoginOptions from 'components/screens/login-screen/login-options';
 import LoginSignupButton from 'components/common/login-signup/login-signup-button';
-import {useState} from 'react';
+
+import PageStyles from 'components/common/login-signup/style.module';
 
 const Logo = require('assets/images/logo.png');
 
-const SignUpScreen = () => {
+const SignUpScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isValid, setIsValid] = useState(false);
 
+  useEffect(() => {
+    validateForm(email, password, confirmPassword);
+  }, [email, password, confirmPassword]);
+
   const handleSSOWithGoogle = () => {
-    Alert.alert('SSO with Google');
+    Alert.alert('Please wait. Implementing the feature');
   };
 
   const handleSignUpWithEmail = () => {
-    Alert.alert('Form submitted');
+    if (isValid) navigation.navigate('Home');
   };
 
   const validateForm = (
@@ -62,7 +58,6 @@ const SignUpScreen = () => {
         setConfirmPassword(value);
         break;
     }
-    validateForm(email, password, confirmPassword);
   };
 
   return (
@@ -81,6 +76,7 @@ const SignUpScreen = () => {
             </View>
 
             <SignupOptionAndInfoSection
+              navigation={navigation}
               handleSSOWithGoogle={handleSSOWithGoogle}
               handleInputChange={handleInputChange}
               email={email}
@@ -91,7 +87,6 @@ const SignUpScreen = () => {
             <View style={styles.loginbuttonSctionContainer}>
               <LoginSignupButton
                 label="Get Started"
-                disabled={isValid}
                 onClick={handleSignUpWithEmail}
               />
             </View>

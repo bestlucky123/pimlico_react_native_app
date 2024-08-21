@@ -1,4 +1,3 @@
-import {useState} from 'react';
 import {TextInput, StyleSheet, View} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Feather';

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Text, View, StyleSheet, Alert} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import LoginSignUpContainer from 'components/common/login-signup/login-signup-container';
 import MailInputField from 'components/common/login-signup/mail-input-filed';
 import PasswordInputField from 'components/common/login-signup/password-input-field';
@@ -11,6 +11,7 @@ import PageStyles from 'components/common/login-signup/style.module';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type Props = {
+  navigation?: any;
   handleSSOWithGoogle?: () => void;
   handleInputChange: (field: string, value: string) => void;
   email: string;
@@ -19,6 +20,7 @@ type Props = {
 };
 
 const SignupOptionAndInfoSection = ({
+  navigation,
   handleSSOWithGoogle,
   handleInputChange,
   email,
@@ -67,7 +69,7 @@ const SignupOptionAndInfoSection = ({
   };
 
   const naviagteToSignInScreen = () => {
-    Alert.alert('Please wait');
+    navigation.navigate('Signin');
   };
 
   return (

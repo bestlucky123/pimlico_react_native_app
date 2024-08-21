@@ -1,12 +1,8 @@
-import { PropsWithChildren } from "react";
-import { View, StyleSheet } from "react-native";
+import {PropsWithChildren} from 'react';
+import {View, StyleSheet} from 'react-native';
 
-const LoginSignUpContainer = ({children} : PropsWithChildren) => {
-  return (
-    <View style={styles.container}>
-      {children}
-    </View>
-  );
+const LoginSignUpContainer = ({children}: PropsWithChildren) => {
+  return <View style={styles.container}>{children}</View>;
 };
 
 const styles = StyleSheet.create({

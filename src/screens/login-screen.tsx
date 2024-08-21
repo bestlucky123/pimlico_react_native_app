@@ -1,3 +1,5 @@
+import {useState} from 'react';
+
 import {
   View,
   Image,
@@ -8,61 +10,100 @@ import {
   ScrollView,
 } from 'react-native';
 import MailAndPasswordInput from 'components/screens/login-screen/mail-password-input';
-
-import PageStyles from 'components/common/login-signup/style.module';
 import LoginOptions from 'components/screens/login-screen/login-options';
 import LoginSignupButton from 'components/common/login-signup/login-signup-button';
-import {useState} from 'react';
+import PageStyles from 'components/common/login-signup/style.module';
 
 const Logo = require('assets/images/logo.png');
 
-const SignInScreen = () => {
+const SignInScreen = ({navigation}: any) => {
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isRememberMe, setIsRememberMe] = useState<boolean>(false);
+
   const [isJustSignedOut, setIsJustSignedOut] = useState<boolean>(false);
 
+  const handleInputChange = (field: string, value: string) => {
+    switch (field) {
+      case 'email':
+        setEmail(value);
+        break;
+      case 'password':
+        setPassword(value);
+        break;
+    }
+  };
+
   const HandleSignIn = () => {
-    Alert.alert('Try later');
+    if (email !== 'test@gmail.com' || password !== 'test123') {
+      Alert.alert(
+        'Invalid Credentials.',
+        `current status \n\n Email: ${email} \n Password: ${password} \n isRemember: ${isRememberMe}`,
+      );
+      return;
+    } else {
+      navigation.navigate('Home');
+    }
+  };
+
+  const navigateToSignup = () => {
+    navigation.navigate('Signup');
   };
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-    <View style={styles.container}>
-      <View style={styles.overlay}>
-        <Image source={Logo} style={styles.logo} />
-        <View style={PageStyles.mainArea}>
-          <View style={styles.titleAndDescription}>
-            <Text style={styles.title}>Sign In</Text>
+      <View style={styles.container}>
+        <View style={styles.overlay}>
+          <Image source={Logo} style={styles.logo} />
+          <View style={PageStyles.mainArea}>
+            <View style={styles.titleAndDescription}>
+              <Text style={styles.title}>Sign In</Text>
 
-            {isJustSignedOut ? (
-              <Text style={styles.description}>
-                You have successfully logged out of your loan portal.{' '}
-                <Text style={styles.descriptionInlineLinkText}>
-                  Please login again
+              {isJustSignedOut ? (
+                <Text style={styles.description}>
+                  You have successfully logged out of your loan portal.{' '}
+                  <Text style={styles.descriptionInlineLinkText}>
+                    Please login again
+                  </Text>
                 </Text>
-              </Text>
-            ) : (
-              <Text style={styles.description}>
-                Use your Pimlico Capital portal to manage all of your loans and lending needs!
-              </Text>
-            )}
-          </View>
+              ) : (
+                <Text style={styles.description}>
+                  Use your Pimlico Capital portal to manage all of your loans
+                  and lending needs!
+                </Text>
+              )}
+            </View>
 
-          <MailAndPasswordInput />
+            <MailAndPasswordInput
+              handleInputChange={handleInputChange}
+              email={email}
+              password={password}
+            />
 
-          <LoginOptions />
+            <LoginOptions
+              isRemember={isRememberMe}
+              setIsRemember={setIsRememberMe}
+            />
 
-          <View style={styles.loginbuttonSctionContainer}>
-            <LoginSignupButton label="Sign In" onClick={HandleSignIn} />
+            <View style={styles.loginbuttonSctionContainer}>
+              <LoginSignupButton label="Sign In" onClick={HandleSignIn} />
 
-            <View style={styles.createAccountContainer}>
-              <Text style={styles.createAccountText}>New to the Portal? </Text>
-              <TouchableOpacity>
-                <Text style={PageStyles.underlineLink}>Create an Account</Text>
-              </TouchableOpacity>
+              <View style={styles.createAccountContainer}>
+                <Text style={styles.createAccountText}>
+                  New to the Portal?{' '}
+                </Text>
+                <TouchableOpacity>
+                  <Text
+                    style={PageStyles.underlineLink}
+                    onPress={navigateToSignup}>
+                    Create an Account
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
     </ScrollView>
   );
 };

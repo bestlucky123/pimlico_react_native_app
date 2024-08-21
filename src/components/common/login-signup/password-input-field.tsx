@@ -4,7 +4,7 @@ import {TextInput, StyleSheet, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Octicons';
 
 type Props = {
-  password: string;
+  password?: string;
   onChange?: (value: string) => void;
   isInvalid?: boolean;
 };
